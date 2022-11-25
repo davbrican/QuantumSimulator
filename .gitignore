@@ -1,0 +1,6 @@
+/build
+/dist
+/QSimulator.egg-info
+.pdf
+/QSimulator/__pycache__
+/documentation
