@@ -14,12 +14,15 @@ A Qubit can be created by default with a random state, or with specific data.
 You can call the class instance *Qubit()* to create a random Qubit, or introducing a valid state inside de constructor:
 
 `example_qubit = Qubit(alpha, beta)`
+
 Where:
+
 ∣α∣²+∣β∣²=1
 
 Another way to generate a new qubit, is creating it from a regular bit using:
 
 `example_qubit = Qubit().generateFromBit(bit)`
+
 Where *bit* must be equal **0** or **1**
 
 ### Polarizer()
