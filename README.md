@@ -13,26 +13,33 @@ There are 2 classes and some functions to emulate the Quantum behaviour.
 A Qubit can be created by default with a random state, or with specific data.
 You can call the class instance *Qubit()* to create a random Qubit, or introducing a valid state inside de constructor:
 
-  example_qubit = Qubit(alpha, beta)
+`example_qubit = Qubit(alpha, beta)`
 Where:
 ∣α∣²+∣β∣²=1
 
 Another way to generate a new qubit, is creating it from a regular bit using:
 
-  example_qubit = Qubit().generateFromBit(bit)
+`example_qubit = Qubit().generateFromBit(bit)`
 Where *bit* must be equal **0** or **1**
 
 ### Polarizer()
 A Polarizer can be also created by default as a random polarizer (what means that its angle will be random 0 or 90), and can also be created by its constructor specifying the angle used (remember that this value must be 0 or 90):
 
+
 `example_polarizer = Polarizer()`
+
 *or*
+
 `example_polarizer = Polarizer(angle)`
 Where *angle* must be equal **0** or **90**
 
+
 A useful and neccesary function in class *Polarizer()* is *.polarize()* used to measure a Qubit, e.g.:
+
 `qubit = Qubit()`
+
 `polarizer = Polarizer()`
+
 `polarizer.polarize(qubit)`
 
 ## Functions
