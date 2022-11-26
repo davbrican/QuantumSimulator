@@ -27,3 +27,4 @@ class Polarizer:
                 qubit.value = 1
             else:
                 qubit.value = random.randint(0,1)
+        qubit.generateFromBit(qubit.value)
