@@ -4,33 +4,33 @@ from Polarizer import *
 
 class Qubit:
     
-    def __init__(self, alpha = None, beta = None):
+    def __init__(self, alpha = None, beta = None, space = None):
         self.alpha = alpha
         self.beta = beta
+        self.space = space
         self.state = [self.alpha, self.beta]
         if not self.checkState():
             self.generateRandomQubit()
         self.value = None
         
     def __str__(self):
-        return f'Qubit state: {self.state}' if self.value is None else f'Qubit value: {self.value}'
+        return f'Qubit state: {self.state} in space {self.space}' if self.value is None else f'Qubit value: {self.value}'
         
     def checkState(self):
         if self.alpha is None or self.beta is None or self.alpha**2 + self.beta**2 != 1:
+            return False
+        if self.space != 0 and self.space != 90:
             return False
         return True
     
     def generateRandomQubit(self):
         self.alpha = random.random()
         self.beta = math.sqrt(1 - self.alpha**2)
+        self.space = random.choice([0, 90])
         self.state = [self.alpha, self.beta]
         
-    def generateFromBit(self, bit):
+    def generateQubitFromBit(self, bit, polarizer):
         if bit == 0:
-            self.alpha = 1
-            self.beta = 0
+            return Qubit(1, 0, polarizer.angle)
         elif bit == 1:
-            self.alpha = 0
-            self.beta = 1
-        self.state = [self.alpha, self.beta]
-        return self
+            return Qubit(0, 1, polarizer.angle)

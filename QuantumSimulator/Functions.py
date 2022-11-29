@@ -11,37 +11,51 @@ def createNPolarizers(n):
 def createNBits(n):
     return [random.randint(0,1) for i in range(n)]
 
-def createNQubitsFromBits(bits):
-    return [Qubit().generateFromBit(bit) for bit in bits]
+def createNQubitsFromBits(bits, polarizers):
+    return [Qubit().generateQubitFromBit(bits[i], polarizers[i]) for i in range(len(bits))]
 
 def polarizeQubits(qubits, polarizers):
     for i in range(len(qubits)):
-        polarizers[i].polarize(qubits[i])
+        qubits[i] = polarizers[i].polarize(qubits[i])
     return qubits
 
 def duplicateQubit(qubit):
-    return Qubit(qubit.alpha, qubit.beta)
+    return Qubit(qubit.alpha, qubit.beta, qubit.space)
 
-def protocol_bb84_simulation(n, mitm=False, printResults=False):
-    a_qubits = createNQubits(n)
-    a_polars = createNPolarizers(n)
-    a_qubits_copy = [duplicateQubit(qubit) for qubit in a_qubits]
-    a_polarized_qbits = polarizeQubits(a_qubits_copy, a_polars)
-
+def protocol_bb84_simulation(n, mitm=False):
+    a_bits = createNBits(n)
+    a_polarizers = createNPolarizers(n)
+    a_qubits = createNQubitsFromBits(a_bits, a_polarizers)
+    qubits_copy = [duplicateQubit(qubit) for qubit in a_qubits]
+    
+    b_polarizers = createNPolarizers(n)
+        
     if mitm:
-        mitm_qubits = createNQubitsFromBits([bit.value for bit in a_polarized_qbits])
-        mitm_polars = createNPolarizers(n)
-        mitm_qubits_copy = [duplicateQubit(qubit) for qubit in mitm_qubits]
-        mitm_polarized_qbits = polarizeQubits(mitm_qubits_copy, mitm_polars)
-
-        b_qubits = createNQubitsFromBits([bit.value for bit in mitm_polarized_qbits])
+        mitm_polarizers = createNPolarizers(n)
+        mitm_bits = polarizeQubits(qubits_copy, mitm_polarizers)
+        b_bits = polarizeQubits(mitm_bits, b_polarizers)
     else:
-        b_qubits = createNQubitsFromBits([bit.value for bit in a_polarized_qbits])
-    b_polars = createNPolarizers(n)
-    b_qubits_copy = [duplicateQubit(qubit) for qubit in b_qubits]
-    b_polarized_qbits = polarizeQubits(b_qubits_copy, b_polars)
+        b_bits = polarizeQubits(qubits_copy, b_polarizers)
+    
+    return {"a_bits": a_bits, "a_polarizers": a_polarizers, "a_qubits": a_qubits, "b_polarizers": b_polarizers, "b_bits": b_bits}
 
-    return {"a_qubits": a_qubits, "a_polars": a_polars, "a_polarized_qbits": a_polarized_qbits, "b_qubits": b_qubits, "b_polars": b_polars, "b_polarized_qbits": b_polarized_qbits}
+def protocol_bb84_cheker(qkd):
+    n = len(qkd["a_qubits"])
+    random_start = random.randint(0, n-int(n/4))
+    random_end = int(random_start + (n/4))
 
-def protocol_bb84_cheker():
-    return True
+    a_comparison_bits = [bit for bit in qkd["a_bits"][random_start:random_end]]
+    a_comparison_polars = [qbit.angle for qbit in qkd["a_polarizers"][random_start:random_end]]
+    b_comparison_bits = [qbit.value for qbit in qkd["b_bits"][random_start:random_end]]
+    b_comparison_polars = [qbit.angle for qbit in qkd["b_polarizers"][random_start:random_end]]
+    
+    total_equal = 0
+    total_equally_polarized = 0
+    for i in range(int(n/4)):
+        if a_comparison_polars[i] == b_comparison_polars[i]:
+            total_equally_polarized += 1
+            if a_comparison_bits[i] == b_comparison_bits[i]:
+                total_equal += 1
+            else:
+                print(f"Bits are not equal at index {i}: a_bit={a_comparison_bits[i]}, b_bit={b_comparison_bits[i]} at angles: a {a_comparison_polars[i]} b {b_comparison_polars[i]}")
+    return total_equal/total_equally_polarized*100 if total_equally_polarized != 0 else 0
