@@ -39,7 +39,7 @@ def protocol_bb84_simulation(n, mitm=False):
     
     return {"a_bits": a_bits, "a_polarizers": a_polarizers, "a_qubits": a_qubits, "b_polarizers": b_polarizers, "b_bits": b_bits}
 
-def protocol_bb84_cheker(qkd):
+def protocol_bb84_checker(qkd, print_results=False):
     n = len(qkd["a_qubits"])
     random_start = random.randint(0, n-int(n/4))
     random_end = int(random_start + (n/4))
@@ -49,6 +49,12 @@ def protocol_bb84_cheker(qkd):
     b_comparison_bits = [qbit.value for qbit in qkd["b_bits"][random_start:random_end]]
     b_comparison_polars = [qbit.angle for qbit in qkd["b_polarizers"][random_start:random_end]]
     
+    del qkd["a_bits"][random_start:random_end]
+    del qkd["a_polarizers"][random_start:random_end]
+    del qkd["a_qubits"][random_start:random_end]
+    del qkd["b_bits"][random_start:random_end]
+    del qkd["b_polarizers"][random_start:random_end]
+    
     total_equal = 0
     total_equally_polarized = 0
     for i in range(int(n/4)):
@@ -56,6 +62,9 @@ def protocol_bb84_cheker(qkd):
             total_equally_polarized += 1
             if a_comparison_bits[i] == b_comparison_bits[i]:
                 total_equal += 1
-            else:
+            elif print_results:
                 print(f"Bits are not equal at index {i}: a_bit={a_comparison_bits[i]}, b_bit={b_comparison_bits[i]} at angles: a {a_comparison_polars[i]} b {b_comparison_polars[i]}")
-    return total_equal/total_equally_polarized*100 if total_equally_polarized != 0 else 0
+    equallity_percentage = total_equal/total_equally_polarized*100 if total_equally_polarized != 0 else 0
+    password = [qbit.value for qbit in qkd["b_bits"]]  if equallity_percentage == 100 else []
+
+    return {"equallity_percentage": equallity_percentage, "password": password}

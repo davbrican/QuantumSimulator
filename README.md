@@ -1,4 +1,4 @@
-#  1. QuantumSimulator
+# QuantumSimulator
 
 This is a project to simulate Quantum Cryptography Protocols.
 
@@ -8,8 +8,8 @@ There is a BB84 transference protocol simulation to study the Qubits behaviours.
 
 There are 2 classes and some functions to emulate the Quantum behaviour.
 
-## 1.1. Classes
-### 1.1.1. Qubit()
+## Classes
+### Qubit()
 A Qubit can be created by default with a random state, or with specific data.
 You can call the class instance *Qubit()* to create a random Qubit, or introducing a valid state inside de constructor:
 
@@ -25,7 +25,7 @@ Another way to generate a new qubit, is creating it from a regular bit using:
 
 Where *bit* must be equal **0** or **1** and *polarizer* must be an existing polarizer
 
-### 1.1.2. Polarizer()
+### Polarizer()
 A Polarizer can be also created by default as a random polarizer (what means that its angle will be random 0 or 90), and can also be created by its constructor specifying the angle used (remember that this value must be 0 or 90):
 
 
@@ -65,5 +65,5 @@ Generate a full QKD protocol simulation and returns an object with the attribute
  - *a_qubits* ("Alice" Sender generated Qubits from the original bits)
  - *b_polarizers* ("Bob" Receiver polarizers)
  - *b_bits* ("Alice" Receiver generated Qubits after polarize "Alice" Sender qubits)
-### protocol_bb84_cheker(qkd)
-Returns a percentage of similarity in qkd protocol (100% if there is not MiTM attack)
+### protocol_bb84_checker(qkd)
+Returns an object which contains the percentage of similarity in qkd protocol (100% if there is not MiTM attack) and an array of bits corresponding with the rest of the available bits (the not checked ones) used as password
