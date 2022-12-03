@@ -18,7 +18,7 @@ class Polarizer:
         return True
         
     def polarize(self, qubit):
-        if qubit.state == [1,0]:
+        if qubit.getState() == [1,0]:
             if self.angle == qubit.space:
                 qubit = Qubit(1,0,self.angle)
                 qubit.value = 0
@@ -27,7 +27,7 @@ class Polarizer:
                 beta = int(math.sqrt(1 - alpha**2))
                 qubit = Qubit(alpha,beta,self.angle)
                 qubit = self.polarize(qubit)
-        elif qubit.state == [0,1]:
+        elif qubit.getState() == [0,1]:
             if self.angle == qubit.space:
                 qubit = Qubit(0,1,self.angle)
                 qubit.value = 1

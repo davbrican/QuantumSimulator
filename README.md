@@ -8,6 +8,7 @@ There is a BB84 transference protocol simulation to study the Qubits behaviours.
 
 There are 2 classes and some functions to emulate the Quantum behaviour.
 
+
 ## Classes
 ### Qubit()
 A Qubit can be created by default with a random state, or with specific data.
@@ -25,6 +26,23 @@ Another way to generate a new qubit, is creating it from a regular bit using:
 
 Where *bit* must be equal **0** or **1** and *polarizer* must be an existing polarizer
 
+A useful function is *.quantumEntangle(qubit)* where a qubit gets associated with another qubit following the paradox of EPR. To use it, 2 or more qubits must be defined:
+
+`qubit1 = Qubit()`
+
+`qubit2 = Qubit()`
+
+`qubit1.quantumEntangle(qubit2)`
+
+or
+
+`qubit2.quantumEntangle(qubit1)`
+
+To reflect a modification on the entangled qubits, in the one that has been modified, you have to use the function *.quantumEntanglement()*:
+
+`qubit.quantumEntanglement()`
+
+
 ### Polarizer()
 A Polarizer can be also created by default as a random polarizer (what means that its angle will be random 0 or 90), and can also be created by its constructor specifying the angle used (remember that this value must be 0 or 90):
 
@@ -37,7 +55,7 @@ A Polarizer can be also created by default as a random polarizer (what means tha
 Where *angle* must be equal **0** or **90**
 
 
-A useful and neccesary function in class *Polarizer()* is *.polarize()* used to measure a Qubit, e.g.:
+A useful and neccesary function in class *Polarizer()* is *.polarize(qubit)* used to measure a Qubit, e.g.:
 
 `qubit = Qubit()`
 
