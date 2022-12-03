@@ -12,7 +12,6 @@ print(checker)
 #print(hex(int("".join([str(bit) for bit in checker["password"]]))))
 
 
-'''
 qubit1 = Qubit(1, 0, 0)
 qubit2 = Qubit(0, 1, 0)
 qubit3 = Qubit(0.6, 0.8, 90)
@@ -31,3 +30,4 @@ print("")
 print(qubit1)
 print(qubit2)
 print(qubit3)
+'''

@@ -1,6 +1,7 @@
 import random
 from Qubit import *
 from Functions import *
+import math
 
 class Polarizer:
     
