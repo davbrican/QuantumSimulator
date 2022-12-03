@@ -2,10 +2,13 @@ import random
 import math
 from Polarizer import *
 from Functions import *
+import gc
 
 class Qubit:
     
     def __init__(self, alpha = None, beta = None, space = None):
+        self.id = 0
+        self.setId()
         self.alpha = alpha
         self.beta = beta
         self.space = space
@@ -15,7 +18,12 @@ class Qubit:
         self.entanglements = []
         
     def __str__(self):
-        return f'Qubit state: {self.getState()} in space {self.space}' if self.value is None else f'Qubit value: {self.value}'
+        return f'Qubit {self.id} with state: {self.getState()} in space {self.space}' if self.value is None else f'Qubit {self.id} with value: {self.value}'
+        
+    def setId(self):
+        for obj in gc.get_objects():
+            if isinstance(obj, Qubit):
+                self.id += 1
         
     def getState(self):
         return [self.alpha, self.beta]

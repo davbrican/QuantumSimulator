@@ -20,22 +20,18 @@ class Polarizer:
     def polarize(self, qubit):
         if qubit.getState() == [1,0]:
             if self.angle == qubit.space:
-                qubit = Qubit(1,0,self.angle)
-                qubit.value = 0
+                qubit.alpha, qubit.beta, qubit.space, qubit.value = 1, 0, self.angle, 0
             elif self.angle != qubit.space:
                 alpha = random.randint(0,1)
-                beta = int(math.sqrt(1 - alpha**2))
-                qubit = Qubit(alpha,beta,self.angle)
-                qubit = self.polarize(qubit)
+                qubit.alpha, qubit.beta, qubit.space, qubit.value = alpha, int(math.sqrt(1 - alpha**2)), self.angle, 0
+                self.polarize(qubit)
         elif qubit.getState() == [0,1]:
             if self.angle == qubit.space:
-                qubit = Qubit(0,1,self.angle)
-                qubit.value = 1
+                qubit.alpha, qubit.beta, qubit.space, qubit.value = 0, 1, self.angle, 1
             elif self.angle != qubit.space:
                 alpha = random.randint(0,1)
-                beta = int(math.sqrt(1 - alpha**2))
-                qubit = Qubit(alpha,beta,self.angle)
-                qubit = self.polarize(qubit)
+                qubit.alpha, qubit.beta, qubit.space, qubit.value = alpha, int(math.sqrt(1 - alpha**2)), self.angle, 0
+                self.polarize(qubit)
         else:
             if self.angle == 0:
                 if random.random() < abs(qubit.alpha)**2:
@@ -48,5 +44,4 @@ class Polarizer:
                 else:
                     qubit.value = random.randint(0,1)
                 qubit.generateQubitFromBit(qubit.value, self)
-
-        return qubit
+        qubit.quantumEntanglement()

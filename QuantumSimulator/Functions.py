@@ -16,7 +16,7 @@ def createNQubitsFromBits(bits, polarizers):
 
 def polarizeQubits(qubits, polarizers):
     for i in range(len(qubits)):
-        qubits[i] = polarizers[i].polarize(qubits[i])
+        polarizers[i].polarize(qubits[i])
     return qubits
 
 def duplicateQubit(qubit):
