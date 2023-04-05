@@ -30,4 +30,5 @@ print("")
 print(qubit1)
 print(qubit2)
 print(qubit3)
+
 '''
