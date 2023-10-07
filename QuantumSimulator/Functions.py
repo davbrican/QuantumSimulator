@@ -68,3 +68,25 @@ def protocol_bb84_checker(qkd, print_results=False):
     password = [qbit.value for qbit in qkd["b_bits"]]  if equallity_percentage == 100 else []
 
     return {"equallity_percentage": equallity_percentage, "password": password}
+
+def coin_flipping(option="A"):
+    polarizer = Polarizer()
+    bits = createNBits(1000)
+    polarizers = [polarizer for i in range(1000)]
+    qbits = createNQubitsFromBits(bits, polarizers)
+    
+    opt = random.randint(0,1)
+    if opt == 1 and option == "A":
+        option = "B"
+        
+    options = {
+        "A": Polarizer(90-polarizer.angle),
+        "B": polarizer
+    }
+    polarizer2 = options[option]
+    
+    polarizers2 = [polarizer2 for i in range(1000)]
+    polarizeQubits(qbits, polarizers2)
+    
+    return {"bits": bits, "polarizer": polarizer, "option": {"your_option": option, "possibilities": options}, "result": [qbits[i].value for i in range(len(qbits))] == bits}
+    

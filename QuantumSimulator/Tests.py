@@ -11,6 +11,8 @@ print(checker)
 
 #print(hex(int("".join([str(bit) for bit in checker["password"]]))))
 
+print(hex(int("".join([str(bit) for bit in checker["password"]]))))
+print(bin(int("".join([str(bit) for bit in checker["password"]]))))
 
 qubit1 = Qubit(1, 0, 0)
 qubit2 = Qubit(0, 1, 0)
@@ -32,3 +34,4 @@ print(qubit2)
 print(qubit3)
 
 '''
+print(coin_flipping("A"))
