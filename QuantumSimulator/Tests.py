@@ -33,5 +33,11 @@ print(qubit1)
 print(qubit2)
 print(qubit3)
 
-'''
+
 print(coin_flipping("A"))
+'''
+n = 1000
+qkd = protocol_bb84_simulation(n, mitm=True)
+
+checker = protocol_bb84_checker(qkd, print_results=False)
+print(checker)
